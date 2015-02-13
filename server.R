@@ -2,7 +2,8 @@
 
 source("functions.R")
 source("helpers.R")
-loadUser(userID="yj",type="AmazonS3")
+type="local" # "AmazonS3"
+loadUser(userID="yj",type=type)
 
 
 shinyServer(
@@ -18,7 +19,7 @@ shinyServer(
     observe({
       if (input$Save != 0) {
         status$LastAction <- 'Save'
-        saveUser(userID="yj",type="AmazonS3")
+        saveUser(userID="yj",type=type)
         status$Pass <- TRUE
         status$Msg <- "Save account successfully!"
       }
@@ -27,7 +28,7 @@ shinyServer(
     observe({
       if (input$Load != 0) {
         status$LastAction <- 'Load'
-        loadUser(userID="yj",type="AmazonS3")
+        loadUser(userID="yj",type=type)
         status$Pass <- TRUE
         status$Msg <- "Load account successfully!"
       }
@@ -36,7 +37,7 @@ shinyServer(
     observe({
       if (input$Reset != 0) {
         status$LastAction <- 'Reset'
-        #loadUser(userID="yj",type="AmazonS3")
+        #loadUser(userID="yj",type=type)
         status$Pass <- TRUE
         status$Msg <- "Reset account successfully!"
       }
