@@ -36,12 +36,7 @@ shinyUI(fluidPage(
         column(2,
                actionButton("Go", label = "Submit"))
         
-      ),#fluidRow
-      #               br(),
-      #               fluidRow(
-      #                 column(12,
-      #                 verbatimTextOutput("summary"))
-      #               ),#fluidRow
+      ),       
       hr(),
       fluidRow(
         column(12,
@@ -60,17 +55,14 @@ shinyUI(fluidPage(
                actionButton("Load", label = "Load"),
                actionButton("Reset", label = "Reset"))
       )
-     ),
+    ),
     tabPanel(
       "Strategy"
     ),
     tabPanel(
       "Backtest"
     )
-    
   )
-
-  
-  
+    
   )#fluidPage
 )#shinyUI
