@@ -553,7 +553,7 @@ printSummary <- function(){
 
 
 # work with .instrument
-prepareSymbols <- function(startDate='2014-11-01',endDate='2014-12-31'){  
+prepareSymbols <- function(startDate='2014-01-01',endDate='2014-12-31'){  
   symbols = getAllSymbols()
   for (symbol in symbols){
     getSymbols(symbol, from=startDate, to=endDate, index.class="POSIXct", env = .GlobalEnv)
@@ -626,7 +626,7 @@ quickSetup <- function(portf="myP1",acct="myA",symbols=c("BABA","GOOG"),strat="F
 
 runBackTest <- function(strat="Faber",portf=c("myP1","myP2"),acct="myA"){
   # sanityCheck()
-  #prepareSymbols()
+  prepareSymbols()
   prepareInstrument()
   for (p in portf){
     addOrderBook(p)

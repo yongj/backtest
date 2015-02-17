@@ -2,8 +2,11 @@
 
 source("functions.R")
 source("helpers.R")
-type="local" # "AmazonS3"
+type="AmazonS3" # "AmazonS3"
+# initilize account
 loadUser(userID="yj",type=type)
+# initilize stragtety
+addStrategyFaber(myStrat="Faber")
 
 
 shinyServer(
@@ -102,6 +105,36 @@ shinyServer(
       if ((input$Save!=0)){drawFlowChart()}
       if ((input$Load!=0)){drawFlowChart()}
       if ((input$Reset!=0)){drawFlowChart()}            
+    })
+    
+    output$StrategySummary <- renderPrint({
+      summary(getStrategy("Faber"))
+      })
+    
+    observe({
+      if (input$RunBacktest != 0) {
+        runBackTest(strat="Faber",portf=c("myPortfolio"),acct="myAccount")
+      }
+    })
+    
+    output$EquityCurve <- renderPlot({
+      if (input$RunBacktest!=0){
+        a <- getAccount("myAccount")
+        equity <- a$summary$End.Eq
+        plot(equity,
+             main="Faber Strategy Equity Curve",
+             xlim=as.POSIXct(c("2014-01-01 00:00:00","2014-12-31 03:00:00")))
+      }
+    })
+    
+    output$PosnChart <- renderPlot({
+      if (input$RunBacktest!=0)
+      plotPosnChart(portf="myPortfolio",symbol="SPY", date='2014::')
+    })
+    
+    output$TxnSummary <- renderPrint({
+      if (input$RunBacktest!=0)
+        getTxns(Portfolio="myPortfolio",Symbol="SPY",Dates="2014")
     })
       
     
