@@ -2,7 +2,7 @@
 
 source("functions.R")
 source("helpers.R")
-type="AmazonS3" # "AmazonS3"
+type="local" # "AmazonS3"
 # initilize account
 loadUser(userID="yj",type=type)
 # initilize stragtety
