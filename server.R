@@ -2,7 +2,7 @@
 
 source("functions.R")
 source("helpers.R")
-type="local" # "AmazonS3"
+type="AmazonS3" # "AmazonS3"
 # initilize account
 loadUser(userID="yj",type=type)
 # initilize stragtety
@@ -136,7 +136,50 @@ shinyServer(
       if (input$RunBacktest!=0)
         getTxns(Portfolio="myPortfolio",Symbol="SPY",Dates="2014")
     })
+    
+    output$selectStock <- renderUI({
+      choiceList = list("AAPL","MSFT","GOOG","BABA","STX","WDC")
       
+      selectInput("selectStock", 
+                  label = "Select Stock", 
+                  choices = choiceList, selected = 1)
+      
+    })
+    
+    output$selectTA <- renderUI({
+      choiceList = list("Volume" = "addVo()",
+                        "EMA" = "addEMA()",
+                        "MACD" = "addMACD()",
+                        "BBands" = "addBBands()",
+                        "ADC" = "addADX()",
+                        "CCI" = "addCCI()")
+      
+      selectInput("selectTA", 
+                  label = "Add TA", 
+                  choices = choiceList, selected = 1)
+      
+    })
+    
+    chartData <- reactiveValues()
+#     chartData$symbol <- "AAPL"
+#     chartData$data <- NULL
+    
+    observe({
+      chartData$symbol = input$selectStock
+      chartData$data = getSymbols(chartData$symbol, auto.assign = FALSE) 
+    })
+    
+    output$candleChart <- renderPlot({
+      TA = input$selectTA
+      if (TA=="addVo()"){
+        assign("TAstr","addVo()",envir = as.environment(1))
+      }
+      else {
+        assign("TAstr",paste(TA,"addVo()",sep=";"),envir = as.environment(1))
+      }
+      candleChart(chartData$data, subset='2014-9::2014-12',theme="white", name = chartData$symbol, TA=TAstr)
+    })
+    
     
   }
 )

@@ -3,7 +3,24 @@
 
 shinyUI(fluidPage(
   #titlePanel("Strategy Backtest"),
-  navbarPage("StratB APP",
+  navbarPage("STRATEGY B",
+             #========================= SYMBOLS =========================#
+             tabPanel("Symbols",
+                      sidebarLayout(
+                        
+                        sidebarPanel(
+                          uiOutput("selectStock"),
+                          uiOutput("selectTA")
+                        ),
+                        
+                        mainPanel(
+                                  plotOutput("candleChart")
+                        )
+                      )
+             ),#tabPanel("Symbols"
+             
+             
+             #========================= BACKTEST =========================#
              tabPanel("Backtest",  
                       navlistPanel(
                         #================= TAB PANEL: ACCOUNT =================#
@@ -115,9 +132,10 @@ shinyUI(fluidPage(
                         )
   
              ),
-  
-  tabPanel("Symbols"),
-  tabPanel("Share")
+
+            
+            #========================= SHARE =========================#
+            tabPanel("Share")
   )
   )#fluidPage
 )#shinyUI
