@@ -162,20 +162,22 @@ shinyServer(
     
     chartData <- reactiveValues()
 #     chartData$symbol <- "AAPL"
-#     chartData$data <- NULL
+#     chartData$data <- getSymbols("AAPL", auto.assign = FALSE)
     
     observe({
       chartData$symbol = input$selectStock
-      chartData$data = getSymbols(chartData$symbol, auto.assign = FALSE) 
+      if(!is.null(chartData$symbol)){
+        chartData$data = getSymbols(chartData$symbol, auto.assign = FALSE)
+      }
     })
     
     output$candleChart <- renderPlot({
       TA = input$selectTA
-      if (TA=="addVo()"){
+      if (identical(TA,"addVo()")){
         assign("TAstr","addVo()",envir = as.environment(1))
       }
       else {
-        assign("TAstr",paste(TA,"addVo()",sep=";"),envir = as.environment(1))
+        assign("TAstr",paste("addVo()",TA,sep=";"),envir = as.environment(1))
       }
       candleChart(chartData$data, subset='2014-9::2014-12',theme="white", name = chartData$symbol, TA=TAstr)
     })
