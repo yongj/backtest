@@ -2,7 +2,7 @@
 
 source("functions.R")
 source("helpers.R")
-type="local" # "AmazonS3", "local"
+type="AmazonS3" # "AmazonS3", "local"
 # initilize account
 loadUser(userID="yj",type=type)
 # initilize stragtety
@@ -138,7 +138,16 @@ shinyServer(
     })
     
     output$selectStock <- renderUI({
-      choiceList = list("AAPL","MSFT","GOOG","BABA","STX","WDC")
+      #choiceList = list("AAPL","MSFT","GOOG","BABA","STX","WDC")
+      
+      # 002594.SZ    Bi Ya Di
+      # 002424.SZ    Gui Zhou Bai LIng
+      # 000596.SZ    Gu Jing Gu Jiu
+      # 002024.SZ    Su Ning Yun Shang  
+      choiceList = list("002594 Bi Ya Di" = "002594.SZ",
+                        "002424 Gui Zhou Bai Ling" = "002424.SZ",
+                        "000596 Gu Jing Gong Jiu" = "000596.SZ",
+                        "002024 Sun Ning Yun Shang" = "002024.SZ")
       
       selectInput("selectStock", 
                   label = "Select Stock", 
