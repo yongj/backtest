@@ -148,6 +148,7 @@ shinyServer(
                         "002424 Gui Zhou Bai Ling" = "002424.SZ",
                         "000596 Gu Jing Gong Jiu" = "000596.SZ",
                         "002024 Sun Ning Yun Shang" = "002024.SZ")
+
       
       selectInput("selectStock", 
                   label = "Select Stock", 
