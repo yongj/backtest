@@ -10,7 +10,11 @@ shinyUI(fluidPage(
                         
                         sidebarPanel(
                           uiOutput("selectStock"),
-                          uiOutput("selectTA")
+                          uiOutput("selectTA"),
+                          dateRangeInput('dateRange',
+                                         label = 'Date Range',
+                                         start = "2014-09-01", end = "2014-12-31"
+                          )
                         ),
                         
                         mainPanel(

@@ -2,7 +2,7 @@
 
 source("functions.R")
 source("helpers.R")
-type="AmazonS3" # "AmazonS3"
+type="local" # "AmazonS3", "local"
 # initilize account
 loadUser(userID="yj",type=type)
 # initilize stragtety
@@ -179,7 +179,8 @@ shinyServer(
       else {
         assign("TAstr",paste("addVo()",TA,sep=";"),envir = as.environment(1))
       }
-      candleChart(chartData$data, subset='2014-9::2014-12',theme="white", name = chartData$symbol, TA=TAstr)
+      dataRangeStr = paste(as.character(input$dateRange), collapse = "::")
+      candleChart(chartData$data, subset=dataRangeStr, theme="white", name = chartData$symbol, TA=TAstr)
     })
     
     
