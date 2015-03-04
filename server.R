@@ -7,6 +7,8 @@ type="AmazonS3" # "AmazonS3", "local"
 loadUser(userID="yj",type=type)
 # initilize stragtety
 addStrategyFaber(myStrat="Faber")
+# Load my stocklist, variable name "myStock"
+load(file = "data/stocklist.RData")
 
 
 shinyServer(
@@ -144,10 +146,11 @@ shinyServer(
       # 002424.SZ    Gui Zhou Bai LIng
       # 000596.SZ    Gu Jing Gu Jiu
       # 002024.SZ    Su Ning Yun Shang  
-      choiceList = list("002594 Bi Ya Di" = "002594.SZ",
-                        "002424 Gui Zhou Bai Ling" = "002424.SZ",
-                        "000596 Gu Jing Gong Jiu" = "000596.SZ",
-                        "002024 Sun Ning Yun Shang" = "002024.SZ")
+      choiceList = as.list(paste(myStock$Symbol,myStock$Loc,sep="."))
+      
+      names(choiceList)=paste(myStock$Symbol,myStock$Name,sep=" ")
+      
+      #names(choiceList)=paste(myStock$Symbol,myStock$Pinyin,sep=" ")
 
       
       selectInput("selectStock", 

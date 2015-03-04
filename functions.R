@@ -16,7 +16,7 @@ addUser <- function(userID="yj"){
 
 saveUser <- function(userID="yj",saveSymbols=FALSE,type="local"){
   if(type=="local"){
-    filePath = "C:/Users/jiang_y/Documents/R/Proj_Stock/Proj_Strategy/"
+    filePath = "data/"
     fileID = paste(filePath,"user_",userID,".dat",sep="")
     if (saveSymbols){
       .symbols=new.env()
@@ -45,7 +45,7 @@ saveUser <- function(userID="yj",saveSymbols=FALSE,type="local"){
 loadUser <- function(userID="yj",type="local"){
   if(type=="local"){
     .blotter <<- new.env()
-    filePath = "C:/Users/jiang_y/Documents/R/Proj_Stock/Proj_Strategy/"
+    filePath = "data/"
     fileID = paste(filePath,"user_",userID,".dat",sep="")
     load(fileID,envir=.GlobalEnv)
     if(exists(".symbols")){

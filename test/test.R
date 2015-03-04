@@ -20,3 +20,9 @@ addMACD()
 addSMA()
 addSMA(n=30)
 addSMA(n=60)
+
+
+
+myStock = read.table("test/stocklist.txt",header=TRUE,encoding="UTF-8",colClasses = "character")
+save(myStock,file = "data/stocklist.RData")
+load(file = "data/stocklist.RData")
