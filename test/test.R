@@ -16,3 +16,7 @@ addCCI()
 addADX()
 addEMA()
 addMACD()
+
+addSMA()
+addSMA(n=30)
+addSMA(n=60)
