@@ -2,13 +2,15 @@
 
 source("functions.R")
 source("helpers.R")
-type="AmazonS3" # "AmazonS3", "local"
+source("functions_stocklist.R")
+type="local" # "AmazonS3", "local"
 # initilize account
 loadUser(userID="yj",type=type)
 # initilize stragtety
 addStrategyFaber(myStrat="Faber")
 # Load my stocklist, variable name "myStock"
-load(file = "data/stocklist.RData")
+stockList = loadStockList(filePath = "data/stocklist.RData")
+myStock = stockList[c(700,333,66,666,99,999),]
 
 
 shinyServer(
@@ -140,19 +142,13 @@ shinyServer(
     })
     
     output$selectStock <- renderUI({
-      #choiceList = list("AAPL","MSFT","GOOG","BABA","STX","WDC")
-      
-      # 002594.SZ    Bi Ya Di
-      # 002424.SZ    Gui Zhou Bai LIng
-      # 000596.SZ    Gu Jing Gu Jiu
-      # 002024.SZ    Su Ning Yun Shang  
-      choiceList = as.list(paste(myStock$Symbol,myStock$Loc,sep="."))
+
+      choiceList = as.list(as.character(myStock$Symbol))
       
       names(choiceList)=paste(myStock$Symbol,myStock$Name,sep=" ")
       
-      #names(choiceList)=paste(myStock$Symbol,myStock$Pinyin,sep=" ")
-
-      
+      print(choiceList)
+    
       selectInput("selectStock", 
                   label = "Select Stock", 
                   choices = choiceList, selected = 1)
@@ -178,8 +174,9 @@ shinyServer(
 #     chartData$data <- getSymbols("AAPL", auto.assign = FALSE)
     
     observe({
-      chartData$symbol = input$selectStock
-      if(!is.null(chartData$symbol)){
+      if(!is.null(input$selectStock)){
+        chartData$symbol = paste(as.character(input$selectStock),"SZ",sep=".")
+        chartData$name = myStock$Name[myStock$Symbol==input$selectStock]
         chartData$data = getSymbols(chartData$symbol, auto.assign = FALSE)
       }
     })
@@ -193,7 +190,8 @@ shinyServer(
         assign("TAstr",paste("addVo()",TA,sep=";"),envir = as.environment(1))
       }
       dataRangeStr = paste(as.character(input$dateRange), collapse = "::")
-      candleChart(chartData$data, subset=dataRangeStr, theme="white", name = chartData$symbol, TA=TAstr)
+      candleChart(chartData$data, subset=dataRangeStr, theme="white", name = chartData$name, TA=TAstr)
+      #candleChart(chartData$data, subset=dataRangeStr, theme="white", name = chartData$symbol, TA=TAstr)
     })
     
     
