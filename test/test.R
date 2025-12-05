@@ -2,7 +2,7 @@
 
 choiceList = list("AAPL","MSFT","GOOG","BABA","STX","WDC")
 
-symbol = "GOOG"
+symbol = "BABA"
 data = getSymbols(symbol, auto.assign = FALSE) 
 chartSeries(data, subset='2014-9::2014-12',theme="white")
 candleChart(data, subset='2014-9::2014-12',theme="white")
